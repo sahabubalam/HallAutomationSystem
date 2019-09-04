@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ffecbd0ac0214212987c97294ecefc16" Name="Diagram1">
+        <EntityTypeShape EntityType="HallAutomationSystemModel.Users" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HallAutomationSystemModel.Address" Width="1.5" PointX="6" PointY="4" />
+        <EntityTypeShape EntityType="HallAutomationSystemModel.Department" Width="1.5" PointX="4.125" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="HallAutomationSystemModel.DepartmentInfo" Width="1.5" PointX="5.25" PointY="1.125" />
+        <EntityTypeShape EntityType="HallAutomationSystemModel.District" Width="1.5" PointX="7.875" PointY="3.75" />
+        <EntityTypeShape EntityType="HallAutomationSystemModel.Preference" Width="1.5" PointX="2.25" PointY="4.875" />
+        <EntityTypeShape EntityType="HallAutomationSystemModel.Room" Width="1.5" PointX="0.5" PointY="3" />
+        <EntityTypeShape EntityType="HallAutomationSystemModel.Student" Width="1.5" PointX="3" PointY="0.75" />
+        <AssociationConnector Association="HallAutomationSystemModel.FK_Address_Address" />
+        <AssociationConnector Association="HallAutomationSystemModel.FK_Address_District" />
+        <AssociationConnector Association="HallAutomationSystemModel.FK_Address_District1" />
+        <AssociationConnector Association="HallAutomationSystemModel.FK_DepartmentInfo_Department" />
+        <AssociationConnector Association="HallAutomationSystemModel.FK_DepartmentInfo_Student" />
+        <AssociationConnector Association="HallAutomationSystemModel.FK_Student_Room" />
+        <AssociationConnector Association="HallAutomationSystemModel.FK_Student_Users" />
+        <AssociationConnector Association="HallAutomationSystemModel.FK_Preference_Student" />
+        <AssociationConnector Association="HallAutomationSystemModel.FK_Address_Student" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
