@@ -53,6 +53,7 @@ namespace HallAutomationSystem.Controllers
             {
                 if (LoginRepository.LoginOperation(model))
                 {
+                    FormsAuthentication.SetAuthCookie(model.UserName, false);
                     ViewBag.Failed = "Success";
                     Session["UserName"] = model.UserName; 
                     return RedirectToAction("Index", "Home");

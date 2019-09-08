@@ -14,6 +14,12 @@ namespace MyApp.Db
     
     public partial class Student
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Student()
+        {
+            this.Meal = new HashSet<Meal>();
+        }
+    
         public int StudentId { get; set; }
         public Nullable<int> UserId { get; set; }
         public Nullable<int> RoomId { get; set; }
@@ -21,11 +27,15 @@ namespace MyApp.Db
         public string FatherName { get; set; }
         public string MotherName { get; set; }
         public string MobileNumber { get; set; }
+        public Nullable<int> PaymentId { get; set; }
     
-        public virtual DepartmentInfo DepartmentInfo { get; set; }
         public virtual Room Room { get; set; }
         public virtual Users Users { get; set; }
         public virtual Preference Preference { get; set; }
         public virtual Address Address { get; set; }
+        public virtual DepartmentInfo DepartmentInfo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Meal> Meal { get; set; }
+        public virtual Account Account { get; set; }
     }
 }

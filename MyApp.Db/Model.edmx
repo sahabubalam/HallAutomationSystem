@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="HallAutomationSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Name="StudentId" Type="int" Nullable="false" />
+          <Property Name="Balance" Type="int" />
+          <Property Name="Due" Type="int" />
+        </EntityType>
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="StudentId" />
@@ -21,14 +29,14 @@
           <Key>
             <PropertyRef Name="DeptId" />
           </Key>
-          <Property Name="DeptId" Type="int" Nullable="false" />
+          <Property Name="DeptId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DeptName" Type="nchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DepartmentInfo">
           <Key>
             <PropertyRef Name="StudentId" />
           </Key>
-          <Property Name="StudentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentId" Type="int" Nullable="false" />
           <Property Name="DepartmentId" Type="int" />
           <Property Name="Session" Type="nchar" MaxLength="50" />
           <Property Name="Cgpa" Type="nchar" MaxLength="50" />
@@ -39,6 +47,15 @@
           </Key>
           <Property Name="DistrictId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DistrictName" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Meal">
+          <Key>
+            <PropertyRef Name="MealId" />
+          </Key>
+          <Property Name="MealId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentId" Type="int" />
+          <Property Name="Lunch" Type="int" Nullable="false" />
+          <Property Name="Dinnar" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Preference">
           <Key>
@@ -68,6 +85,7 @@
           <Property Name="FatherName" Type="nchar" MaxLength="50" />
           <Property Name="MotherName" Type="nchar" MaxLength="50" />
           <Property Name="MobileNumber" Type="nchar" MaxLength="50" />
+          <Property Name="PaymentId" Type="int" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -78,6 +96,18 @@
           <Property Name="UserEmail" Type="nchar" MaxLength="50" />
           <Property Name="Password" Type="int" />
         </EntityType>
+        <Association Name="FK_Account_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Address_Address">
           <End Role="Address" Type="Self.Address" Multiplicity="1" />
           <End Role="Address1" Type="Self.Address" Multiplicity="0..1" />
@@ -150,6 +180,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Meal_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="Meal" Type="Self.Meal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="Meal">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Preference_Student">
           <End Role="Student" Type="Self.Student" Multiplicity="1" />
           <End Role="Preference" Type="Self.Preference" Multiplicity="0..1" />
@@ -187,14 +229,20 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="HallAutomationSystemModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Address" EntityType="Self.Address" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DepartmentInfo" EntityType="Self.DepartmentInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Meal" EntityType="Self.Meal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preference" EntityType="Self.Preference" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Account_Student" Association="Self.FK_Account_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
           <AssociationSet Name="FK_Address_Address" Association="Self.FK_Address_Address">
             <End Role="Address" EntitySet="Address" />
             <End Role="Address1" EntitySet="Address" />
@@ -218,6 +266,10 @@
           <AssociationSet Name="FK_DepartmentInfo_Student" Association="Self.FK_DepartmentInfo_Student">
             <End Role="Student" EntitySet="Student" />
             <End Role="DepartmentInfo" EntitySet="DepartmentInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Meal_Student" Association="Self.FK_Meal_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Meal" EntitySet="Meal" />
           </AssociationSet>
           <AssociationSet Name="FK_Preference_Student" Association="Self.FK_Preference_Student">
             <End Role="Student" EntitySet="Student" />
@@ -249,8 +301,6 @@
         <EntityContainer Name="HallAutomationSystemEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Users" EntityType="Self.Users" />
           <EntitySet Name="Address" EntityType="HallAutomationSystemModel.Address" />
-          <EntitySet Name="Department" EntityType="HallAutomationSystemModel.Department" />
-          <EntitySet Name="DepartmentInfo" EntityType="HallAutomationSystemModel.DepartmentInfo" />
           <EntitySet Name="District" EntityType="HallAutomationSystemModel.District" />
           <EntitySet Name="Preference" EntityType="HallAutomationSystemModel.Preference" />
           <EntitySet Name="Room" EntityType="HallAutomationSystemModel.Room" />
@@ -266,14 +316,6 @@
           <AssociationSet Name="FK_Address_District1" Association="HallAutomationSystemModel.FK_Address_District1">
             <End Role="District" EntitySet="District" />
             <End Role="Address" EntitySet="Address" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DepartmentInfo_Department" Association="HallAutomationSystemModel.FK_DepartmentInfo_Department">
-            <End Role="Department" EntitySet="Department" />
-            <End Role="DepartmentInfo" EntitySet="DepartmentInfo" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DepartmentInfo_Student" Association="HallAutomationSystemModel.FK_DepartmentInfo_Student">
-            <End Role="Student" EntitySet="Student" />
-            <End Role="DepartmentInfo" EntitySet="DepartmentInfo" />
           </AssociationSet>
           <AssociationSet Name="FK_Student_Room" Association="HallAutomationSystemModel.FK_Student_Room">
             <End Role="Room" EntitySet="Room" />
@@ -291,7 +333,27 @@
             <End Role="Student" EntitySet="Student" />
             <End Role="Address" EntitySet="Address" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="Department" EntityType="HallAutomationSystemModel.Department" />
+          <EntitySet Name="DepartmentInfo" EntityType="HallAutomationSystemModel.DepartmentInfo" />
+          <AssociationSet Name="FK_DepartmentInfo_Department" Association="HallAutomationSystemModel.FK_DepartmentInfo_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="DepartmentInfo" EntitySet="DepartmentInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DepartmentInfo_Student" Association="HallAutomationSystemModel.FK_DepartmentInfo_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="DepartmentInfo" EntitySet="DepartmentInfo" />
+          </AssociationSet>
+          <EntitySet Name="Meal" EntityType="HallAutomationSystemModel.Meal" />
+          <AssociationSet Name="FK_Meal_Student" Association="HallAutomationSystemModel.FK_Meal_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Meal" EntitySet="Meal" />
+          </AssociationSet>
+          <EntitySet Name="Account" EntityType="HallAutomationSystemModel.Account" />
+          <AssociationSet Name="FK_Account_Student" Association="HallAutomationSystemModel.FK_Account_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="Account" EntitySet="Account" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="StudentId" />
@@ -308,25 +370,6 @@
           <NavigationProperty Name="District" Relationship="HallAutomationSystemModel.FK_Address_District" FromRole="Address" ToRole="District" />
           <NavigationProperty Name="District1" Relationship="HallAutomationSystemModel.FK_Address_District1" FromRole="Address" ToRole="District" />
           <NavigationProperty Name="Student" Relationship="HallAutomationSystemModel.FK_Address_Student" FromRole="Address" ToRole="Student" />
-        </EntityType>
-        <EntityType Name="Department">
-          <Key>
-            <PropertyRef Name="DeptId" />
-          </Key>
-          <Property Name="DeptId" Type="Int32" Nullable="false" />
-          <Property Name="DeptName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="DepartmentInfo" Relationship="HallAutomationSystemModel.FK_DepartmentInfo_Department" FromRole="Department" ToRole="DepartmentInfo" />
-        </EntityType>
-        <EntityType Name="DepartmentInfo">
-          <Key>
-            <PropertyRef Name="StudentId" />
-          </Key>
-          <Property Name="StudentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DepartmentId" Type="Int32" />
-          <Property Name="Session" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-          <Property Name="Cgpa" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Department" Relationship="HallAutomationSystemModel.FK_DepartmentInfo_Department" FromRole="DepartmentInfo" ToRole="Department" />
-          <NavigationProperty Name="Student" Relationship="HallAutomationSystemModel.FK_DepartmentInfo_Student" FromRole="DepartmentInfo" ToRole="Student" />
         </EntityType>
         <EntityType Name="District">
           <Key>
@@ -367,11 +410,14 @@
           <Property Name="FatherName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Name="MotherName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="DepartmentInfo" Relationship="HallAutomationSystemModel.FK_DepartmentInfo_Student" FromRole="Student" ToRole="DepartmentInfo" />
           <NavigationProperty Name="Room" Relationship="HallAutomationSystemModel.FK_Student_Room" FromRole="Student" ToRole="Room" />
           <NavigationProperty Name="Users" Relationship="HallAutomationSystemModel.FK_Student_Users" FromRole="Student" ToRole="Users" />
           <NavigationProperty Name="Preference" Relationship="HallAutomationSystemModel.FK_Preference_Student" FromRole="Student" ToRole="Preference" />
           <NavigationProperty Name="Address" Relationship="HallAutomationSystemModel.FK_Address_Student" FromRole="Student" ToRole="Address" />
+          <Property Name="PaymentId" Type="Int32" />
+          <NavigationProperty Name="DepartmentInfo" Relationship="HallAutomationSystemModel.FK_DepartmentInfo_Student" FromRole="Student" ToRole="DepartmentInfo" />
+          <NavigationProperty Name="Meal" Relationship="HallAutomationSystemModel.FK_Meal_Student" FromRole="Student" ToRole="Meal" />
+          <NavigationProperty Name="Account" Relationship="HallAutomationSystemModel.FK_Account_Student" FromRole="Student" ToRole="Account" />
         </EntityType>
         <Association Name="FK_Address_Address">
           <End Type="HallAutomationSystemModel.Address" Role="Address" Multiplicity="1" />
@@ -406,30 +452,6 @@
             </Principal>
             <Dependent Role="Address">
               <PropertyRef Name="T_DistrictId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DepartmentInfo_Department">
-          <End Type="HallAutomationSystemModel.Department" Role="Department" Multiplicity="0..1" />
-          <End Type="HallAutomationSystemModel.DepartmentInfo" Role="DepartmentInfo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="DeptId" />
-            </Principal>
-            <Dependent Role="DepartmentInfo">
-              <PropertyRef Name="DepartmentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DepartmentInfo_Student">
-          <End Type="HallAutomationSystemModel.Student" Role="Student" Multiplicity="1" />
-          <End Type="HallAutomationSystemModel.DepartmentInfo" Role="DepartmentInfo" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Student">
-              <PropertyRef Name="StudentId" />
-            </Principal>
-            <Dependent Role="DepartmentInfo">
-              <PropertyRef Name="StudentId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -481,7 +503,93 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DeptId" />
+          </Key>
+          <Property Name="DeptId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeptName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="DepartmentInfo" Relationship="HallAutomationSystemModel.FK_DepartmentInfo_Department" FromRole="Department" ToRole="DepartmentInfo" />
+        </EntityType>
+        <EntityType Name="DepartmentInfo">
+          <Key>
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Name="StudentId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="Session" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Cgpa" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Department" Relationship="HallAutomationSystemModel.FK_DepartmentInfo_Department" FromRole="DepartmentInfo" ToRole="Department" />
+          <NavigationProperty Name="Student" Relationship="HallAutomationSystemModel.FK_DepartmentInfo_Student" FromRole="DepartmentInfo" ToRole="Student" />
+        </EntityType>
+        <Association Name="FK_DepartmentInfo_Department">
+          <End Type="HallAutomationSystemModel.Department" Role="Department" Multiplicity="0..1" />
+          <End Type="HallAutomationSystemModel.DepartmentInfo" Role="DepartmentInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DeptId" />
+            </Principal>
+            <Dependent Role="DepartmentInfo">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DepartmentInfo_Student">
+          <End Type="HallAutomationSystemModel.Student" Role="Student" Multiplicity="1" />
+          <End Type="HallAutomationSystemModel.DepartmentInfo" Role="DepartmentInfo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="DepartmentInfo">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Meal">
+          <Key>
+            <PropertyRef Name="MealId" />
+          </Key>
+          <Property Name="MealId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentId" Type="Int32" />
+          <Property Name="Lunch" Type="Int32" Nullable="false" />
+          <Property Name="Dinnar" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Student" Relationship="HallAutomationSystemModel.FK_Meal_Student" FromRole="Meal" ToRole="Student" />
+        </EntityType>
+        <Association Name="FK_Meal_Student">
+          <End Type="HallAutomationSystemModel.Student" Role="Student" Multiplicity="0..1" />
+          <End Type="HallAutomationSystemModel.Meal" Role="Meal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="Meal">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Name="StudentId" Type="Int32" Nullable="false" />
+          <Property Name="Balance" Type="Int32" />
+          <Property Name="Due" Type="Int32" />
+          <NavigationProperty Name="Student" Relationship="HallAutomationSystemModel.FK_Account_Student" FromRole="Account" ToRole="Student" />
+        </EntityType>
+        <Association Name="FK_Account_Student">
+          <End Type="HallAutomationSystemModel.Student" Role="Student" Multiplicity="1" />
+          <End Type="HallAutomationSystemModel.Account" Role="Account" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="Account">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -506,24 +614,6 @@
                 <ScalarProperty Name="P_PostOffice" ColumnName="P_PostOffice" />
                 <ScalarProperty Name="P_VillageName" ColumnName="P_VillageName" />
                 <ScalarProperty Name="P_DistrictId" ColumnName="P_DistrictId" />
-                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Department">
-            <EntityTypeMapping TypeName="HallAutomationSystemModel.Department">
-              <MappingFragment StoreEntitySet="Department">
-                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
-                <ScalarProperty Name="DeptId" ColumnName="DeptId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DepartmentInfo">
-            <EntityTypeMapping TypeName="HallAutomationSystemModel.DepartmentInfo">
-              <MappingFragment StoreEntitySet="DepartmentInfo">
-                <ScalarProperty Name="Cgpa" ColumnName="Cgpa" />
-                <ScalarProperty Name="Session" ColumnName="Session" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="StudentId" ColumnName="StudentId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -558,12 +648,50 @@
           <EntitySetMapping Name="Student">
             <EntityTypeMapping TypeName="HallAutomationSystemModel.Student">
               <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
                 <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
                 <ScalarProperty Name="MotherName" ColumnName="MotherName" />
                 <ScalarProperty Name="FatherName" ColumnName="FatherName" />
                 <ScalarProperty Name="StudentName" ColumnName="StudentName" />
                 <ScalarProperty Name="RoomId" ColumnName="RoomId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Department">
+            <EntityTypeMapping TypeName="HallAutomationSystemModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
+                <ScalarProperty Name="DeptId" ColumnName="DeptId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DepartmentInfo">
+            <EntityTypeMapping TypeName="HallAutomationSystemModel.DepartmentInfo">
+              <MappingFragment StoreEntitySet="DepartmentInfo">
+                <ScalarProperty Name="Cgpa" ColumnName="Cgpa" />
+                <ScalarProperty Name="Session" ColumnName="Session" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Meal">
+            <EntityTypeMapping TypeName="HallAutomationSystemModel.Meal">
+              <MappingFragment StoreEntitySet="Meal">
+                <ScalarProperty Name="Dinnar" ColumnName="Dinnar" />
+                <ScalarProperty Name="Lunch" ColumnName="Lunch" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="MealId" ColumnName="MealId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Account">
+            <EntityTypeMapping TypeName="HallAutomationSystemModel.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="Due" ColumnName="Due" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
                 <ScalarProperty Name="StudentId" ColumnName="StudentId" />
               </MappingFragment>
             </EntityTypeMapping>
