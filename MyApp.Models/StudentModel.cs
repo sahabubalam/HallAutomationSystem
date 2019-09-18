@@ -14,4 +14,8 @@ namespace MyApp.Models
         public int RoomNumber { get; set; }
         public string MobileNumber { get; set; }
     }
+    public class StudentUpdateModel : StudentModel
+    {
+        public int StudentId { get; set; }
+    }
 }

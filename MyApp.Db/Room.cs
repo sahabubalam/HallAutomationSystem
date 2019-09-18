@@ -17,7 +17,7 @@ namespace MyApp.Db
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Room()
         {
-            this.Student = new HashSet<Student>();
+            this.Students = new HashSet<Student>();
         }
     
         public int RoomId { get; set; }
@@ -26,6 +26,6 @@ namespace MyApp.Db
         public Nullable<int> EmptySeat { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Student> Student { get; set; }
+        public virtual ICollection<Student> Students { get; set; }
     }
 }

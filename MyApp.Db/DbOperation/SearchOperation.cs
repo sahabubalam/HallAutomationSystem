@@ -11,7 +11,7 @@ namespace MyApp.Db.DbOperation
     {
 
         // Get a row from Users table by using UserName
-        public Users User(string UserName)
+        public Users GetUser(string UserName)
         {
             using(var context=new HallAutomationSystemEntities())
             {
@@ -21,14 +21,14 @@ namespace MyApp.Db.DbOperation
 
                 else
                 {
-                    user.UserId = -1;
+               //     user.UserId = -1;
                     return user;
                 }
                
             }
         }
         // Get a row from Student table by using UserId
-        public Student Student(int UserId)
+        public Student GetStudent(int UserId)
         {
            using(var context = new HallAutomationSystemEntities())
             {
@@ -39,7 +39,7 @@ namespace MyApp.Db.DbOperation
                 }
                 else
                 {
-                    student.StudentId = -1;
+                    //student.StudentId = -1;
                     return student;
                 }
             } 
@@ -56,7 +56,7 @@ namespace MyApp.Db.DbOperation
                 }
                 else
                 {
-                    departmentinfo.DepartmentId = -1;
+                    //departmentinfo.DepartmentId = -1;
                     return departmentinfo;
                 }
             }
@@ -73,7 +73,7 @@ namespace MyApp.Db.DbOperation
                 }
                 else
                 {
-                    department.DeptId = -1;
+                    //department.DeptId = -1;
                     return department;
                 }
             }
@@ -90,7 +90,7 @@ namespace MyApp.Db.DbOperation
                 }
                 else
                 {
-                    address.StudentId = -1;
+                    //address.StudentId = -1;
                     return address;
                 }
             }
@@ -107,7 +107,7 @@ namespace MyApp.Db.DbOperation
                 }
                 else
                 {
-                    district.DistrictId = -1;
+                    //district.DistrictId = -1;
                     return district;
                 }
             }
@@ -117,14 +117,14 @@ namespace MyApp.Db.DbOperation
         {
             using (var context = new HallAutomationSystemEntities())
             {
-                var room = context.Room.FirstOrDefault(x => x.RoomId == RoomId);
+                var room = context.Rooms.FirstOrDefault(x => x.RoomId == RoomId);
                 if (room != null)
                 {
                     return room;
                 }
                 else
                 {
-                    room.RoomId = -1;
+                    //room.RoomId = -1;
                     return room;
                 }
             }
@@ -134,17 +134,57 @@ namespace MyApp.Db.DbOperation
         {
             using (var context=new HallAutomationSystemEntities())
             {
-                var meal = context.Meal.FirstOrDefault(x => x.StudentId == StudentId);
+                var meal = context.Meal.FirstOrDefault(x => x.StudentId == StudentId && x.Date == DateTime.Today);
                 if (meal != null)
                 {
                     return meal;
                 }
                 else
                 {
-                    meal.StudentId = -1;
+                    //meal.StudentId = -1;
                     return meal;
                 }
             }
         }
+
+        public int GetMealCost(int id = 1)
+        {
+            using (var context = new HallAutomationSystemEntities())
+            {
+                var mealcost = context.MealCost.FirstOrDefault(x => x.MealCostId == id);
+                if (mealcost != null)
+                {
+                    return mealcost.MealCost1;
+                }
+                else return -1;
+            }
+        }
+
+        public Account GetAccount(int StudentId)
+        {
+            using (var context = new HallAutomationSystemEntities())
+            {
+                var account = context.Account.FirstOrDefault(x => x.StudentId == StudentId);
+                if (account != null)
+                {
+                    return account;
+                }
+                else
+                {
+                    //meal.StudentId = -1;
+                    return account;
+                }
+            }
+        }
+
+        public List<Meal> GetAllMeals()
+        {
+            using(var context = new HallAutomationSystemEntities())
+            {
+                var mealList = context.Meal.Where(x => x.Date == DateTime.Today).ToList();
+                return mealList;
+            }
+        }
+
     }
 }

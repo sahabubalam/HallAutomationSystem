@@ -29,11 +29,12 @@ namespace MyApp.Db
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<District> District { get; set; }
         public virtual DbSet<Preference> Preference { get; set; }
-        public virtual DbSet<Room> Room { get; set; }
         public virtual DbSet<Student> Student { get; set; }
         public virtual DbSet<Department> Department { get; set; }
         public virtual DbSet<DepartmentInfo> DepartmentInfo { get; set; }
         public virtual DbSet<Meal> Meal { get; set; }
         public virtual DbSet<Account> Account { get; set; }
+        public virtual DbSet<Room> Rooms { get; set; }
+        public virtual DbSet<MealCost> MealCost { get; set; }
     }
 }

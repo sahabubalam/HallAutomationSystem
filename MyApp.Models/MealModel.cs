@@ -11,4 +11,8 @@ namespace MyApp.Models
         public int Lunch { get; set; }
         public int Dinnar { get; set; }
     }
+    public class MealUpdateModel : MealModel
+    {
+        public int MealId { get; set; }
+    }
 }

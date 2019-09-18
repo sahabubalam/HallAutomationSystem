@@ -1,0 +1,133 @@
+﻿@model IEnumerable<MyApp.Db.Meal>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-lg-12 col-12">
+
+            <table class="table table-bordered" style="margin-top:20px;background-color:darkgray">
+                <tr style="color:blueviolet">
+                    <th>
+                        @Html.DisplayNameFor(model => model.Lunch)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Dinnar)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RoomNo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Time)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Student.StudentName)
+                    </th>
+
+                </tr>
+                @{
+                    List<int> TotalMeal = new List<int>();
+                    int Lunch = 0, Dinnar = 0;
+                }
+                @foreach (var item in Model)
+                {
+                    Lunch += item.Lunch;
+                    Dinnar += item.Dinnar;
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Lunch)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Dinnar)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RoomNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Time)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StudentName)
+                        </td>
+
+                    </tr>
+                }
+
+                @{
+                    int MealRate = ViewBag.MealRate;
+                    TotalMeal.Add(Lunch);
+                    TotalMeal.Add(Dinnar);
+                    TotalMeal.Add(Lunch + Dinnar);
+                    TotalMeal.Add((Lunch + Dinnar) * MealRate);
+                }
+
+
+
+
+            </table>
+
+            <table class="table table-bordered" style="margin-top:20px">
+                <tr>
+                    <th>
+                        Lunch
+                    </th>
+                    <th>
+                        Dinner
+                    </th>
+                    <th>
+                        Total Meal
+                    </th>
+                    <th>
+                        Total Cost
+                    </th>
+                </tr>
+                @{
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => TotalMeal[0])
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => TotalMeal[1])
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => TotalMeal[2])
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => TotalMeal[3])
+                        </td>
+                    </tr>
+                }
+            </table>
+
+            <script src="~/Scripts/jquery-3.3.1.js"></script>
+            <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+            <div id="printarea">
+
+
+                <center>
+                    <b>Content do you want to print</b>
+                    <input id="btnprint" type="button" class="btn btn-primary" onclick="PrintDiv()" value="Print" />
+                </center>
+            </div>
+
+
+
+            <script type="text/javascript">
+
+                function PrintDiv() {
+                    var divToPrint = document.getElementById('printarea');
+                    var popupWin = window.open('', '_blank', 'width=300,height=400,location=no,left=200px');
+                    popupWin.document.open();
+                    popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
+                    popupWin.document.close();
+                }
+            </script>
+        </div>
+    </div>

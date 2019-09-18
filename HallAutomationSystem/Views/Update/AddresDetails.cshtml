@@ -1,0 +1,74 @@
+﻿@model MyApp.Models.AdressUpdateModel
+
+@{
+    ViewBag.Title = "AddresDetails";
+}
+
+<h2>AddresDetails</h2>
+
+<div>
+    <h4>AdressUpdateModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Permanent_District_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Permanent_District_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Permanent_Post_Office)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Permanent_Post_Office)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Permanent_Village_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Permanent_Village_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Temporary_District_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Temporary_District_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Temporary_Post_Office)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Temporary_Post_Office)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Temporary_Village_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Temporary_Village_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new {  id = Model.StudentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

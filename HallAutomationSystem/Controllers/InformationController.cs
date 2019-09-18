@@ -168,24 +168,26 @@ namespace HallAutomationSystem.Controllers
             }
             return View();
         }
-        public ActionResult Accounts()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Accounts(AccountModel model)
-        {
-            string UserName = (string)(Session["UserName"]);
-            if (ModelState.IsValid)
-            {
-                int id = accountInformation.AddAccount(model, UserName);
-                if (id > 0)
-                {
-                    ModelState.Clear();
-                    ViewBag.Success = "Data inserted";
-                }
-            }
-            return View();
-        }
+        
+        //public ActionResult Accounts()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public ActionResult Accounts(AccountModel model)
+        //{
+        //    string UserName = (string)(Session["UserName"]);
+        //    if (ModelState.IsValid)
+        //    {
+        //        int id = accountInformation.AddAccount(model, UserName);
+        //        if (id > 0)
+        //        {
+        //            ModelState.Clear();
+        //            ViewBag.Success = "Data inserted";
+        //        }
+        //    }
+        //    return View();
+        //}
+        
     }
 }

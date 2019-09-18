@@ -20,12 +20,24 @@ namespace MyApp.Db.DbOperation
                     TotalSeat = model.TotalSeat,
                     EmptySeat = model.EmptySeat
                 };
-                context.Room.Add(room);
+                context.Rooms.Add(room);
                 context.SaveChanges();
                 return room.RoomId;
             }
         }
         
+        public void UpdateRoom(int RoomNumber , int flag)
+        {
+            using(var context = new HallAutomationSystemEntities())
+            {
+                var room = context.Rooms.FirstOrDefault(x => x.RoomId == RoomNumber);
+                if(room != null)
+                {
+                    room.EmptySeat = room.EmptySeat + flag;
+                }
+                context.SaveChanges();
+            }
+        }
 
         
     }

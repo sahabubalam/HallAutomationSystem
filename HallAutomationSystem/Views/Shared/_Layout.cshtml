@@ -34,7 +34,7 @@
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li style="border-right:1px solid white">@Html.ActionLink(@User.Identity.Name,"About","Home")</li>
+                        <li style="border-right:1px solid white">@Html.ActionLink(@User.Identity.Name,"Profile","Home")</li>
                         <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
                     }
                     else

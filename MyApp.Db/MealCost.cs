@@ -12,17 +12,9 @@ namespace MyApp.Db
     using System;
     using System.Collections.Generic;
     
-    public partial class Meal
+    public partial class MealCost
     {
-        public int MealId { get; set; }
-        public Nullable<int> StudentId { get; set; }
-        public int Lunch { get; set; }
-        public int Dinnar { get; set; }
-        public Nullable<int> RoomNo { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public Nullable<System.TimeSpan> Time { get; set; }
-        public string StudentName { get; set; }
-    
-        public virtual Student Student { get; set; }
+        public int MealCostId { get; set; }
+        public int MealCost1 { get; set; }
     }
 }

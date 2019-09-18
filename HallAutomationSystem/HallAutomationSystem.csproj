@@ -184,6 +184,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InformationController.cs" />
+    <Compile Include="Controllers\MealManagementController.cs" />
+    <Compile Include="Controllers\UpdateController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -239,6 +241,17 @@
     <Content Include="Views\Information\StudentDepartmentInformation.cshtml" />
     <Content Include="Views\Information\Meals.cshtml" />
     <Content Include="Views\Information\Accounts.cshtml" />
+    <Content Include="Views\Home\Profile.cshtml" />
+    <Content Include="Views\Update\AddresDetails.cshtml" />
+    <Content Include="Views\Update\Edit.cshtml" />
+    <Content Include="Views\Update\StudentDetails.cshtml" />
+    <Content Include="Views\Update\StudentEdit.cshtml" />
+    <Content Include="Views\MealManagement\Account.cshtml" />
+    <Content Include="Views\MealManagement\AddMeal.cshtml" />
+    <Content Include="Views\Update\ShowMeal.cshtml" />
+    <Content Include="Views\Update\MealEdit.cshtml" />
+    <Content Include="Views\Update\MealDetails.cshtml" />
+    <Content Include="Views\MealManagement\AllMealDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

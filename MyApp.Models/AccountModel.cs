@@ -11,4 +11,8 @@ namespace MyApp.Models
         public int Balance { get; set; }
         public int Due { get; set; }
     }
+    public class AccountUpdateModel : AccountModel
+    {
+        public string UserName { get; set; }
+    }
 }

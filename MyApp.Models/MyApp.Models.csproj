@@ -118,6 +118,7 @@
     <Compile Include="StudentDepartmentInformationModel.cs" />
     <Compile Include="StudentModel.cs" />
     <Compile Include="UserModel.cs" />
+    <Compile Include="UserProfileModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -56,6 +56,17 @@
           <Property Name="StudentId" Type="int" />
           <Property Name="Lunch" Type="int" Nullable="false" />
           <Property Name="Dinnar" Type="int" Nullable="false" />
+          <Property Name="RoomNo" Type="int" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Time" Type="time" Precision="7" />
+          <Property Name="StudentName" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MealCost">
+          <Key>
+            <PropertyRef Name="MealCostId" />
+          </Key>
+          <Property Name="MealCostId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MealCost" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Preference">
           <Key>
@@ -235,6 +246,7 @@
           <EntitySet Name="DepartmentInfo" EntityType="Self.DepartmentInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="District" EntityType="Self.District" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Meal" EntityType="Self.Meal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MealCost" EntityType="Self.MealCost" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preference" EntityType="Self.Preference" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
@@ -303,7 +315,6 @@
           <EntitySet Name="Address" EntityType="HallAutomationSystemModel.Address" />
           <EntitySet Name="District" EntityType="HallAutomationSystemModel.District" />
           <EntitySet Name="Preference" EntityType="HallAutomationSystemModel.Preference" />
-          <EntitySet Name="Room" EntityType="HallAutomationSystemModel.Room" />
           <EntitySet Name="Student" EntityType="HallAutomationSystemModel.Student" />
           <AssociationSet Name="FK_Address_Address" Association="HallAutomationSystemModel.FK_Address_Address">
             <End Role="Address" EntitySet="Address" />
@@ -316,10 +327,6 @@
           <AssociationSet Name="FK_Address_District1" Association="HallAutomationSystemModel.FK_Address_District1">
             <End Role="District" EntitySet="District" />
             <End Role="Address" EntitySet="Address" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Student_Room" Association="HallAutomationSystemModel.FK_Student_Room">
-            <End Role="Room" EntitySet="Room" />
-            <End Role="Student" EntitySet="Student" />
           </AssociationSet>
           <AssociationSet Name="FK_Student_Users" Association="HallAutomationSystemModel.FK_Student_Users">
             <End Role="Users" EntitySet="Users" />
@@ -353,6 +360,12 @@
             <End Role="Student" EntitySet="Student" />
             <End Role="Account" EntitySet="Account" />
           </AssociationSet>
+          <EntitySet Name="Rooms" EntityType="HallAutomationSystemModel.Room" />
+          <AssociationSet Name="FK_Student_Room" Association="HallAutomationSystemModel.FK_Student_Room">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <EntitySet Name="MealCost" EntityType="HallAutomationSystemModel.MealCost" />
           </EntityContainer>
         <EntityType Name="Address">
           <Key>
@@ -389,16 +402,6 @@
           <Property Name="Lunch" Type="Int32" />
           <NavigationProperty Name="Student" Relationship="HallAutomationSystemModel.FK_Preference_Student" FromRole="Preference" ToRole="Student" />
         </EntityType>
-        <EntityType Name="Room">
-          <Key>
-            <PropertyRef Name="RoomId" />
-          </Key>
-          <Property Name="RoomId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoomNumber" Type="Int32" />
-          <Property Name="TotalSeat" Type="Int32" />
-          <Property Name="EmptySeat" Type="Int32" />
-          <NavigationProperty Name="Student" Relationship="HallAutomationSystemModel.FK_Student_Room" FromRole="Room" ToRole="Student" />
-        </EntityType>
         <EntityType Name="Student">
           <Key>
             <PropertyRef Name="StudentId" />
@@ -410,7 +413,6 @@
           <Property Name="FatherName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Name="MotherName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Name="MobileNumber" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Room" Relationship="HallAutomationSystemModel.FK_Student_Room" FromRole="Student" ToRole="Room" />
           <NavigationProperty Name="Users" Relationship="HallAutomationSystemModel.FK_Student_Users" FromRole="Student" ToRole="Users" />
           <NavigationProperty Name="Preference" Relationship="HallAutomationSystemModel.FK_Preference_Student" FromRole="Student" ToRole="Preference" />
           <NavigationProperty Name="Address" Relationship="HallAutomationSystemModel.FK_Address_Student" FromRole="Student" ToRole="Address" />
@@ -418,6 +420,7 @@
           <NavigationProperty Name="DepartmentInfo" Relationship="HallAutomationSystemModel.FK_DepartmentInfo_Student" FromRole="Student" ToRole="DepartmentInfo" />
           <NavigationProperty Name="Meal" Relationship="HallAutomationSystemModel.FK_Meal_Student" FromRole="Student" ToRole="Meal" />
           <NavigationProperty Name="Account" Relationship="HallAutomationSystemModel.FK_Account_Student" FromRole="Student" ToRole="Account" />
+          <NavigationProperty Name="Room" Relationship="HallAutomationSystemModel.FK_Student_Room" FromRole="Student" ToRole="Room" />
         </EntityType>
         <Association Name="FK_Address_Address">
           <End Type="HallAutomationSystemModel.Address" Role="Address" Multiplicity="1" />
@@ -452,18 +455,6 @@
             </Principal>
             <Dependent Role="Address">
               <PropertyRef Name="T_DistrictId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Student_Room">
-          <End Type="HallAutomationSystemModel.Room" Role="Room" Multiplicity="0..1" />
-          <End Type="HallAutomationSystemModel.Student" Role="Student" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Room">
-              <PropertyRef Name="RoomId" />
-            </Principal>
-            <Dependent Role="Student">
-              <PropertyRef Name="RoomId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -555,6 +546,10 @@
           <Property Name="Lunch" Type="Int32" Nullable="false" />
           <Property Name="Dinnar" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Student" Relationship="HallAutomationSystemModel.FK_Meal_Student" FromRole="Meal" ToRole="Student" />
+          <Property Name="RoomNo" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Time" Type="Time" Precision="7" />
+          <Property Name="StudentName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
         </EntityType>
         <Association Name="FK_Meal_Student">
           <End Type="HallAutomationSystemModel.Student" Role="Student" Multiplicity="0..1" />
@@ -589,6 +584,35 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="RoomId" />
+          </Key>
+          <Property Name="RoomId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoomNumber" Type="Int32" />
+          <Property Name="TotalSeat" Type="Int32" />
+          <Property Name="EmptySeat" Type="Int32" />
+          <NavigationProperty Name="Students" Relationship="HallAutomationSystemModel.FK_Student_Room" FromRole="Room" ToRole="Student" />
+        </EntityType>
+        <Association Name="FK_Student_Room">
+          <End Type="HallAutomationSystemModel.Room" Role="Room" Multiplicity="0..1" />
+          <End Type="HallAutomationSystemModel.Student" Role="Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="RoomId" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="RoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="MealCost">
+          <Key>
+            <PropertyRef Name="MealCostId" />
+          </Key>
+          <Property Name="MealCostId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MealCost1" Type="Int32" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -635,16 +659,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Room">
-            <EntityTypeMapping TypeName="HallAutomationSystemModel.Room">
-              <MappingFragment StoreEntitySet="Room">
-                <ScalarProperty Name="EmptySeat" ColumnName="EmptySeat" />
-                <ScalarProperty Name="TotalSeat" ColumnName="TotalSeat" />
-                <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
-                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Student">
             <EntityTypeMapping TypeName="HallAutomationSystemModel.Student">
               <MappingFragment StoreEntitySet="Student">
@@ -680,6 +694,10 @@
           <EntitySetMapping Name="Meal">
             <EntityTypeMapping TypeName="HallAutomationSystemModel.Meal">
               <MappingFragment StoreEntitySet="Meal">
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="RoomNo" ColumnName="RoomNo" />
                 <ScalarProperty Name="Dinnar" ColumnName="Dinnar" />
                 <ScalarProperty Name="Lunch" ColumnName="Lunch" />
                 <ScalarProperty Name="StudentId" ColumnName="StudentId" />
@@ -693,6 +711,24 @@
                 <ScalarProperty Name="Due" ColumnName="Due" />
                 <ScalarProperty Name="Balance" ColumnName="Balance" />
                 <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="HallAutomationSystemModel.Room">
+              <MappingFragment StoreEntitySet="Room">
+                <ScalarProperty Name="EmptySeat" ColumnName="EmptySeat" />
+                <ScalarProperty Name="TotalSeat" ColumnName="TotalSeat" />
+                <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MealCost">
+            <EntityTypeMapping TypeName="HallAutomationSystemModel.MealCost">
+              <MappingFragment StoreEntitySet="MealCost">
+                <ScalarProperty Name="MealCost1" ColumnName="MealCost" />
+                <ScalarProperty Name="MealCostId" ColumnName="MealCostId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -710,7 +746,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

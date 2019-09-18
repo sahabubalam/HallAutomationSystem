@@ -71,5 +71,25 @@ namespace MyApp.Db.DbOperation
                 return address.StudentId;
             }
         }
+        //Address Update from UpdateController
+        public bool UpdateAddress(AdressUpdateModel model)
+        {
+            using(var context = new HallAutomationSystemEntities())
+            {
+                var address = context.Address.FirstOrDefault(x => x.StudentId == model.StudentId);
+                if(address != null)
+                {
+                    address.P_DistrictId = GetDistrictId(model.Permanent_District_Name);
+                    address.P_PostOffice = model.Permanent_Post_Office;
+                    address.P_VillageName = model.Permanent_Village_Name;
+                    address.T_DistrictId = GetDistrictId(model.Temporary_District_Name);
+                    address.T_PostOffice = model.Temporary_Post_Office;
+                    address.T_VillageName = model.Temporary_Village_Name;
+                }
+                context.SaveChanges();
+                return true;
+            }
+            
+        }
     }
 }

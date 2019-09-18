@@ -9,12 +9,10 @@
         <EntityTypeShape EntityType="HallAutomationSystemModel.Address" Width="1.5" PointX="9.5" PointY="2.375" />
         <EntityTypeShape EntityType="HallAutomationSystemModel.District" Width="1.5" PointX="11.75" PointY="3.625" />
         <EntityTypeShape EntityType="HallAutomationSystemModel.Preference" Width="1.5" PointX="1" PointY="2.75" />
-        <EntityTypeShape EntityType="HallAutomationSystemModel.Room" Width="1.5" PointX="1" PointY="0.625" />
         <EntityTypeShape EntityType="HallAutomationSystemModel.Student" Width="1.5" PointX="7.5" PointY="0.5" />
         <AssociationConnector Association="HallAutomationSystemModel.FK_Address_Address" />
         <AssociationConnector Association="HallAutomationSystemModel.FK_Address_District" />
         <AssociationConnector Association="HallAutomationSystemModel.FK_Address_District1" />
-        <AssociationConnector Association="HallAutomationSystemModel.FK_Student_Room" />
         <AssociationConnector Association="HallAutomationSystemModel.FK_Student_Users" />
         <AssociationConnector Association="HallAutomationSystemModel.FK_Preference_Student" />
         <AssociationConnector Association="HallAutomationSystemModel.FK_Address_Student" />
@@ -26,6 +24,9 @@
         <AssociationConnector Association="HallAutomationSystemModel.FK_Meal_Student" />
         <EntityTypeShape EntityType="HallAutomationSystemModel.Account" Width="1.5" PointX="9.75" PointY="9.5" />
         <AssociationConnector Association="HallAutomationSystemModel.FK_Account_Student" />
+        <EntityTypeShape EntityType="HallAutomationSystemModel.Room" Width="1.5" PointX="0.75" PointY="5.875" />
+        <AssociationConnector Association="HallAutomationSystemModel.FK_Student_Room" />
+        <EntityTypeShape EntityType="HallAutomationSystemModel.MealCost" Width="1.5" PointX="3.375" PointY="3.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

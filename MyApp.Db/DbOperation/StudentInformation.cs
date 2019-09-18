@@ -10,12 +10,13 @@ namespace MyApp.Db.DbOperation
 {
     public class StudentInformation
     {
+
         // To get the Room Id by using Room Number.
         public int GetRoomId(int RoomNumber)
         {
             using(var context = new HallAutomationSystemEntities())
             {
-                var room = context.Room.FirstOrDefault(x => x.RoomNumber == RoomNumber);
+                var room = context.Rooms.FirstOrDefault(x => x.RoomNumber == RoomNumber);
                 if(room != null)
                 {
                     return room.RoomId;
@@ -43,10 +44,12 @@ namespace MyApp.Db.DbOperation
             using(var context=new HallAutomationSystemEntities())
             {
                 int RoomId = GetRoomId(model.RoomNumber);
-                if(RoomId == 0) /// If Room Number is not valid
+                if (RoomId == 0) /// If Room Number is not valid
                 {
                     return 0;
                 }
+                RoomInformation roomInformation = new RoomInformation();
+                roomInformation.UpdateRoom(RoomId, -1);
                 Student student = new Student()
                 {
                     StudentName = model.StudentName,
@@ -58,9 +61,33 @@ namespace MyApp.Db.DbOperation
                 };
                 context.Student.Add(student);
                 context.SaveChanges();
+                AccountInformation accountInformation = new AccountInformation();
+                accountInformation.AddAccount(UserName, student.StudentId);
                 return student.StudentId;
             }
 
+        }
+
+        // Student data update from UpdateController
+        public bool UpdateStudent(StudentUpdateModel model)
+        {
+            using (var context=new HallAutomationSystemEntities())
+            {
+                var student = context.Student.FirstOrDefault(x => x.StudentId == model.StudentId);
+                RoomInformation roomInformation = new RoomInformation();
+                roomInformation.UpdateRoom((int)student.RoomId, 1);
+                if (student != null)
+                {
+                    student.StudentName = model.StudentName;
+                    student.FatherName = model.FatherName;
+                    student.MotherName = model.MotherName;
+                    student.MobileNumber = model.MobileNumber;
+                    student.RoomId = (int)GetRoomId(model.RoomNumber);
+                }
+                roomInformation.UpdateRoom((int)student.RoomId, -1);
+                context.SaveChanges();
+                return true;
+            }
         }
     }
 }

@@ -15,4 +15,8 @@ namespace MyApp.Models
         public string Temporary_Post_Office { get; set; }
         public string Temporary_Village_Name { get; set; }
     }
+    public class AdressUpdateModel : AddressModel
+    {
+        public int StudentId { get; set; }
+    }
 }

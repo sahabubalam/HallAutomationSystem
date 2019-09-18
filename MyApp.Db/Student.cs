@@ -29,7 +29,6 @@ namespace MyApp.Db
         public string MobileNumber { get; set; }
         public Nullable<int> PaymentId { get; set; }
     
-        public virtual Room Room { get; set; }
         public virtual Users Users { get; set; }
         public virtual Preference Preference { get; set; }
         public virtual Address Address { get; set; }
@@ -37,5 +36,6 @@ namespace MyApp.Db
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Meal> Meal { get; set; }
         public virtual Account Account { get; set; }
+        public virtual Room Room { get; set; }
     }
 }
